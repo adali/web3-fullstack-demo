@@ -1,28 +1,23 @@
 import { ethers } from "hardhat";
+import { parseUnits } from "ethers";
 
 async function main() {
-  const [sender, receiver] = await ethers.getSigners();
-  console.log(`Sender: ${sender.address}`);
-  //console.log(`Receiver: ${receiver.address}`);
+  const tokenAddress = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"; // 替换为部署的合约地址
+  const [owner, recipient1, recipient2] = await ethers.getSigners();
 
-  // 要接收转账的账户地址
-  const receiverAddress = "0x6D9a75C0Dae9c499Bb74475DEaA7A09615DccBF2";
-  console.log(`Receiver: ${receiverAddress}`);
+  const ADA = await ethers.getContractAt("ADA", tokenAddress);
 
-  const tx = await sender.sendTransaction({
-    //to: receiver.address,
-    to: receiverAddress,
-    value: ethers.parseUnits("100.0", 18), // 18 是以太坊的默认小数位数
-  });
+  // 转账代币
+  const tx1 = await ADA.transfer(recipient1.address, parseUnits("666", 18));
+  await tx1.wait();
+  console.log(`Transferred 666 ADA to: ${recipient1.address}`);
 
-  console.log(`Transaction hash: ${tx.hash}`);
-  await tx.wait();
-  console.log("Transaction mined!");
+  const tx2 = await ADA.transfer(recipient2.address, parseUnits("888", 18));
+  await tx2.wait();
+  console.log(`Transferred 888 ADA to: ${recipient2.address}`);
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

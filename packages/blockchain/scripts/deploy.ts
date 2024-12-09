@@ -11,8 +11,19 @@ async function main() {
     const contractAddress = await stringStorage.getAddress();
     const deployerAddress = (await ethers.provider.getSigner()).address;
 
-    console.log("Contract deployed by:", deployerAddress);
-    console.log("Contract deployed at address:", contractAddress);
+    console.log("StringStorage Contract deployed by:", deployerAddress);
+    console.log("StringStorage Contract deployed at address:", contractAddress);
+
+
+    const [deployer, account1, account2] = await ethers.getSigners();
+
+    // 部署合约，初始供应量为 10,000 ADA（单位为最小分割单位）
+    const ADA = await ethers.getContractFactory("ADA");
+    const ada = await ADA.deploy();
+  
+    await ada.waitForDeployment();
+    console.log(`ADA deployed to: ${await ada.getAddress()}`);
+
 }
 
 main().catch((error) => {
