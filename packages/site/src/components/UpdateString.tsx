@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../utils/contract";
 
@@ -18,9 +18,10 @@ const UpdateString = () => {
       try {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const accounts = await provider.send("eth_requestAccounts", []);
-        setAccount(accounts[0]);
+        setAccount(accounts[1]);
 
-        const signer = provider.getSigner();
+        // 确保 signer 是一个已解开的 Promise
+        const signer = await provider.getSigner();
         const contractInstance = new ethers.Contract(
           CONTRACT_ADDRESS,
           CONTRACT_ABI,
