@@ -8,6 +8,8 @@ import ConnectWallet from "./components/ConnectWallet";
 import UpdateString from "./components/UpdateString";
 import TransferToken from "./components/TransferToken";
 import DisplayToken from "./components/DisplayToken";
+import ConnectAccount from './components/ConnetAccount';
+import DisplayWallets from './components/DisplayWallets';
 
 
 const App = () => {
@@ -41,13 +43,21 @@ const App = () => {
       <h1>StringStorage</h1>
       <ConnectWallet />
       <UpdateString />
+      <br /><hr />
 
       <h1>ADA Token Tracker</h1>
       <TransferToken />
-      
+      <br /><hr />
+
       {/* 显示 ADA 代币余额列表 */}
       <h2>ADA Token Balances</h2>
       <DisplayToken accounts={accounts} /> {/* 调用 DisplayToken 组件并传递账户地址 */}
+      <br /><hr />
+
+      <h2>Wagmi connector demo</h2>
+      <ConnectAccount />
+      <DisplayWallets />
+
     </div>
   );
 };
